@@ -1,0 +1,44 @@
+@import "tailwindcss/theme" reference;
+@import "tailwindcss/utilities";
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .chat-bubble {
+    @apply max-w-xs px-4 py-2 rounded-lg;
+  }
+  
+  @media (min-width: 1024px) {
+    .chat-bubble {
+      max-width: 28rem; /* equivalent to max-w-md */
+    }
+  }
+  
+  .chat-bubble-user {
+    @apply bg-blue-500 text-white ml-auto;
+  }
+  
+  .chat-bubble-bot {
+    @apply bg-gray-200 text-gray-800 mr-auto;
+  }
+  
+  .upload-area {
+    @apply border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors duration-200;
+  }
+  
+  .upload-area:hover {
+    @apply border-blue-400 bg-blue-50;
+  }
+  
+  .upload-area.dragover {
+    @apply border-blue-500 bg-blue-100;
+  }
+}
