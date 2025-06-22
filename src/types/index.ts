@@ -2,6 +2,7 @@ export interface ChatMessage {
   id: string;
   content: string;
   timestamp: string;
+  sender: 'user' | 'bot';
 }
 
 export interface ChatSession {
@@ -50,4 +51,23 @@ export interface VectorStats {
 export interface HealthResponse {
   status: string;
   timestamp: string;
+}
+
+export interface ApplicantData {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export interface ApplicantDataResponse {
+  message: string;
+  session_id: string;
+  applicant_data: {
+    name: string;
+    email: string;
+    phone: string;
+    intended_program: string | null;
+    application_status: string;
+    data_collection_status: string;
+  };
 } 

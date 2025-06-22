@@ -3,9 +3,17 @@ import { AlertCircle } from "lucide-react";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
 import { createChatSession, sendMessage } from "../../services/api";
-import type { ChatMessage, ChatSession } from "../../types";
+import type { ChatMessage, ChatSession, ApplicantData } from "../../types";
 
-const ChatInterface: React.FC = () => {
+interface ChatInterfaceProps {
+  sessionId?: string;
+  applicantData?: ApplicantData;
+}
+
+const ChatInterface: React.FC<ChatInterfaceProps> = ({
+  sessionId,
+  applicantData,
+}) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [session, setSession] = useState<ChatSession | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,10 +23,32 @@ const ChatInterface: React.FC = () => {
     initializeSession();
   }, []);
 
+  useEffect(() => {
+    // Add welcome message if applicant data is available
+    if (applicantData && session) {
+      const welcomeMessage: ChatMessage = {
+        id: `welcome-${Date.now()}`,
+        content: `Hello ${applicantData.name}! I'm your university chatbot assistant. I have your contact information (${applicantData.email}) and I'm here to help you with any questions about our university programs, admissions, or student life. How can I assist you today?`,
+        timestamp: new Date().toISOString(),
+        sender: "bot",
+      };
+      setMessages([welcomeMessage]);
+    }
+  }, [applicantData, session]);
+
   const initializeSession = async () => {
     try {
-      const newSession = await createChatSession();
-      setSession(newSession);
+      if (sessionId) {
+        // Use provided session ID
+        setSession({
+          session_id: sessionId,
+          created_at: new Date().toISOString(),
+        });
+      } else {
+        // Create new session
+        const newSession = await createChatSession();
+        setSession(newSession);
+      }
     } catch (err) {
       setError("Failed to initialize chat session. Please try again.");
       console.error("Failed to create session:", err);
@@ -42,12 +72,14 @@ const ChatInterface: React.FC = () => {
         id: Date.now().toString(),
         content: messageContent,
         timestamp: new Date().toISOString(),
+        sender: "user",
       };
 
       const botMessage: ChatMessage = {
         id: response.message_id,
         content: response.response,
         timestamp: new Date().toISOString(),
+        sender: "bot",
       };
 
       setMessages((prev) => [...prev, userMessage, botMessage]);

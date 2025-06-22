@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Layout/Header";
-import ChatInterface from "./components/Chat/ChatInterface";
+import ChatFlow from "./components/Chat/ChatFlow";
 import FileUpload from "./components/Admin/FileUpload";
 import Dashboard from "./components/Admin/Dashboard";
 
@@ -15,7 +15,7 @@ function App() {
               path="/"
               element={
                 <div className="flex-1 max-w-4xl mx-auto w-full bg-white shadow-sm">
-                  <ChatInterface />
+                  <ChatFlow />
                 </div>
               }
             />

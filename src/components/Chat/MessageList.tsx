@@ -41,8 +41,8 @@ const MessageList: React.FC<MessageListProps> = ({
         </div>
       )}
 
-      {messages.map((message, index) => {
-        const isUser = index % 2 === 0; // Assuming user messages are at even indices
+      {messages.map((message) => {
+        const isUser = message.sender === "user";
 
         return (
           <div

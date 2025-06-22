@@ -6,6 +6,8 @@ import type {
   UploadResponse,
   VectorStats,
   HealthResponse,
+  ApplicantData,
+  ApplicantDataResponse,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:5000/api';
@@ -19,6 +21,13 @@ const api = axios.create({
 
 export const healthCheck = async (): Promise<HealthResponse> => {
   const response = await api.get('/health');
+  return response.data;
+};
+
+export const saveApplicantData = async (
+  applicantData: ApplicantData
+): Promise<ApplicantDataResponse> => {
+  const response = await api.post('/chat/applicant-data', applicantData);
   return response.data;
 };
 
